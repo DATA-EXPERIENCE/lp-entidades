@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Inteligência de dados para sindicatos, associações e federações — Guia da Representação Inteligente, vídeo institucional e diagnóstico gratuito com a Data Experience.">
+<title>Representação Inteligente</title>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+
+<style>
+/* Layout: barra branca fixa sobre tela navy; coluna única de 1120px com as
+   seções separadas por fio de 1px, como em datadx.com.br. Tema escuro único:
+   a identidade da DX é navy, e uma versão clara sairia da marca. */
+:root{
+  color-scheme: dark;
+
+  /* Cor — tokens do tema de datadx.com.br */
+  --bg:#020A27;          /* navy da tela */
+  --deep:#010316;        /* faixa mais profunda */
+  --card:#0A1936;
+  --card-hi:#13284B;
+  --line:#263B5A;
+  --line-soft:#182942;
+  --fg:#EFF6FB;
+  --fg-muted:#9FB0C0;
+  --fg-faint:#6B7F96;
+  --primary:#43B4D4;     /* azul claro da marca */
+  --accent:#1F7DCF;      /* azul médio */
+  --deep-blue:#0C72CB;
+  --gradient:linear-gradient(100deg,#43B4D4,#0C72CB);
+  --signal:#E0A95F;      /* âmbar — só para sinais de alerta */
+  --signal-bg:#2A2114;
+  --ok:#4ECB8E;
+  --ok-bg:#0E2A1E;
+
+  /* Cabeçalho branco, como no site */
+  --head-bg:#FFFFFF;
+  --head-fg:#0A152C;
+  --head-muted:#4B5666;
+  --head-line:#DADEE5;
+
+  /* Tipografia */
+  --display:"Sora",system-ui,-apple-system,sans-serif;
+  --body:"Manrope",system-ui,-apple-system,sans-serif;
+
+  --radius:.625rem;
+  --shadow:0 1px 2px rgba(1,3,22,.5), 0 24px 48px -24px rgba(1,3,22,.9);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,h4{font-family:var(--display); font-weight:600; color:var(--fg); text-wrap:balance; margin:0; line-height:1.18;}
+p{margin:0 0 1.05em;}
+p:last-child{margin-bottom:0;}
+a{color:inherit;}
+ul{margin:0; padding:0; list-style:none;}
+button{font-family:inherit;}
+img{max-width:100%;}
+:focus-visible{outline:2px solid var(--primary); outline-offset:2px; border-radius:4px;}
+
+.wrap{max-width:1120px; margin:0 auto; padding-inline:20px;}
+@media (min-width:820px){ .wrap{padding-inline:40px;} }
+
+section{padding-block:clamp(3rem,6vw,4.6rem); border-top:1px solid var(--line-soft);}
+
+.eyebrow{
+  font-family:var(--display); font-size:.74rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--primary);
+  display:block; margin-bottom:.85rem;
+}
+.sec-head{max-width:660px; margin-bottom:2.6rem;}
+.sec-head h2{font-size:clamp(1.55rem,3.4vw,2.2rem); margin-bottom:.85rem;}
+.sec-head p{color:var(--fg-muted); font-size:1.02rem; max-width:58ch;}
+
+/* ---- botões ---- */
+.btn{
+  font-family:var(--display); font-size:.86rem; font-weight:600; letter-spacing:.01em;
+  border-radius:8px; padding:.82em 1.4em; cursor:pointer; display:inline-flex;
+  align-items:center; gap:.5em; border:1px solid transparent; text-decoration:none;
+  transition:filter .15s, border-color .15s, color .15s, background-color .15s;
+}
+.btn-primary{background:var(--gradient); color:#02142B; box-shadow:0 1px 2px rgba(1,3,22,.6);}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-ghost{background:transparent; color:var(--fg); border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--primary); color:var(--primary);}
+.btn-on-light{background:transparent; color:var(--head-fg); border-color:var(--head-line);}
+.btn-on-light:hover{border-color:var(--accent); color:var(--accent);}
+
+/* ---- cabeçalho ---- */
+header.site{
+  background:var(--head-bg); color:var(--head-fg);
+  border-top:none; border-bottom:1px solid var(--head-line);
+  padding-block:.85rem; position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+}
+.head-row{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+.wordmark{display:flex; align-items:center; gap:.6rem; text-decoration:none;}
+.wordmark img{display:block; width:50px; height:36px;}
+.wordmark .name{
+  font-family:var(--display); font-size:.82rem; font-weight:700; letter-spacing:.11em;
+  color:var(--head-fg); text-transform:uppercase; line-height:1;
+}
+.wordmark .name em{font-style:normal; font-weight:500; color:var(--head-muted);}
+nav.links{display:flex; gap:1.5rem; font-family:var(--display); font-size:.82rem; font-weight:500; color:var(--head-muted);}
+nav.links a{text-decoration:none;}
+nav.links a:hover{color:var(--accent);}
+.head-cta{display:flex; align-items:center; gap:.7rem;}
+@media (max-width:900px){ nav.links{display:none;} }
+@media (max-width:560px){ .head-cta .btn-on-light{display:none;} }
+
+/* ---- hero ---- */
+.hero{
+  border-top:none; padding-block:clamp(2.6rem,5vw,4rem) clamp(3rem,5vw,4.2rem);
+  position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse 90% 70% at 88% -10%, rgba(67,180,212,.16), transparent 62%),
+    radial-gradient(ellipse 70% 60% at 10% 0%, rgba(31,125,207,.12), transparent 60%);
+}
+.hero h1{font-size:clamp(2rem,4.8vw,3.1rem); line-height:1.07; max-width:19ch; letter-spacing:-.015em;}
+.hero h1 .hl{
+  background:var(--gradient); -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:var(--primary);
+}
+.hero .dek{margin-top:1.2rem; font-size:1.08rem; color:var(--fg-muted); max-width:60ch;}
+
+.aud-toggle{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin-top:2rem;}
+.aud-label{font-family:var(--display); font-size:.74rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-faint);}
+.aud-chip{
+  font-family:var(--display); font-size:.84rem; font-weight:600;
+  border:1px solid var(--line); background:var(--card); color:var(--fg-muted);
+  border-radius:999px; padding:.5rem 1.05rem; cursor:pointer;
+  transition:background-color .15s, color .15s, border-color .15s;
+}
+.aud-chip:hover{border-color:var(--fg-faint); color:var(--fg);}
+.aud-chip[aria-pressed="true"]{background:var(--gradient); border-color:transparent; color:#02142B;}
+
+.hero-pains{margin-top:1.9rem; display:flex; flex-direction:column; gap:.6rem; max-width:50ch;}
+.hero-pain{display:flex; align-items:flex-start; gap:.7rem; font-size:.98rem;}
+.hero-pain .x{color:var(--signal); flex:0 0 auto; font-weight:700; line-height:1.5;}
+.hero-actions{display:flex; gap:.8rem; flex-wrap:wrap; margin-top:2.1rem;}
+
+.stat-row{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1.6rem;
+  margin-top:2.8rem; padding-top:2rem; border-top:1px solid var(--line);
+}
+.stat .num{
+  font-family:var(--display); font-weight:700; font-size:1.8rem; color:var(--primary);
+  font-variant-numeric:tabular-nums; display:block; line-height:1;
+}
+.stat .lbl{font-size:.84rem; color:var(--fg-muted); margin-top:.4rem; display:block; max-width:20ch;}
+
+/* visibilidade por público */
+body[data-audience="sind"] .aud-assoc{display:none;}
+body[data-audience="assoc"] .aud-sind{display:none;}
+
+/* ---- vídeo ---- */
+.video-frame{
+  max-width:880px; margin:0 auto; border-radius:14px; overflow:hidden; background:#000;
+  border:1px solid var(--line); box-shadow:var(--shadow); position:relative; display:block;
+  text-decoration:none;
+}
+.video-frame img{display:block; width:100%; aspect-ratio:16/9; object-fit:cover;}
+.video-play{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg, rgba(1,3,22,.05), rgba(1,3,22,.55));
+}
+.video-play span{
+  width:4.6rem; height:4.6rem; border-radius:50%; background:var(--gradient);
+  display:flex; align-items:center; justify-content:center; color:#02142B;
+  font-size:1.5rem; box-shadow:0 8px 24px rgba(1,3,22,.5); transition:transform .15s;
+}
+.video-frame:hover .video-play span{transform:scale(1.06);}
+.video-caption{
+  max-width:880px; margin:1rem auto 0; display:flex; justify-content:space-between;
+  gap:1rem; flex-wrap:wrap; font-family:var(--display); font-size:.78rem; color:var(--fg-faint);
+}
+
+/* ---- sinais ---- */
+.check-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(272px,1fr)); gap:1rem;}
+.check-item{
+  display:flex; gap:.85rem; align-items:flex-start; background:var(--card);
+  border:1px solid var(--line); border-radius:var(--radius); padding:1.1rem 1.2rem; min-width:0;
+}
+.check-item .flag{
+  flex:0 0 auto; width:1.7rem; height:1.7rem; border-radius:50%;
+  background:var(--signal-bg); color:var(--signal); display:flex; align-items:center;
+  justify-content:center; font-family:var(--display); font-size:.9rem; font-weight:700;
+}
+.check-item p{font-size:.95rem; margin:0; color:var(--fg); min-width:0;}
+.pain-bridge{
+  margin-top:1.6rem; display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap;
+  justify-content:space-between; background:var(--card-hi); border:1px solid var(--accent);
+  border-radius:var(--radius); padding:1.2rem 1.4rem;
+}
+.pain-bridge p{margin:0; font-size:.96rem; max-width:62ch; color:var(--fg); min-width:0;}
+.pain-bridge strong{color:var(--primary);}
+
+/* ---- pilares ---- */
+.pillar-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(276px,1fr)); gap:1rem;}
+.pillar-card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:1.35rem 1.35rem 1.45rem; display:flex; flex-direction:column; gap:.55rem; min-width:0;
+  transition:border-color .15s;
+}
+.pillar-card:hover{border-color:var(--accent);}
+.pillar-top{display:flex; align-items:baseline; gap:.7rem;}
+.pillar-n{font-family:var(--display); font-weight:700; font-size:1.35rem; color:var(--primary); font-variant-numeric:tabular-nums;}
+.pillar-verb{font-family:var(--display); font-size:.7rem; letter-spacing:.11em; text-transform:uppercase; color:var(--fg-faint); font-weight:600;}
+.pillar-card h3{font-size:1.1rem;}
+.pillar-card p{font-size:.93rem; color:var(--fg-muted); margin:0;}
+
+/* ---- faixa de citação ---- */
+.band-alt{background:var(--deep);}
+.pullquote{
+  font-family:var(--display); font-weight:500; font-size:clamp(1.25rem,2.7vw,1.7rem);
+  line-height:1.4; color:var(--fg); border-left:3px solid var(--primary);
+  padding-left:1.1em; max-width:56ch; margin:0;
+}
+.band-alt .sub-copy{margin-top:1.4rem; color:var(--fg-muted); max-width:62ch; font-size:.98rem;}
+
+/* ---- cases ---- */
+.case-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(248px,1fr)); gap:1rem;}
+.case-card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.45rem; min-width:0;
+}
+.case-badge{
+  font-family:var(--display); font-size:.72rem; font-weight:700; letter-spacing:.06em;
+  color:var(--primary); background:var(--card-hi); border-radius:5px;
+  padding:.24rem .55rem; align-self:flex-start;
+}
+.case-card .name{font-weight:700; color:var(--fg); font-size:.97rem; line-height:1.35;}
+.case-card p{font-size:.9rem; color:var(--fg-muted); margin:0;}
+
+/* ---- guia + formulário ---- */
+.ebook-sec{background:var(--deep);}
+.ebook-grid{display:grid; grid-template-columns:minmax(0,1fr); gap:2.4rem;}
+@media (min-width:900px){ .ebook-grid{grid-template-columns:.82fr 1.18fr; align-items:start;} }
+
+.book-mock{
+  background:
+    radial-gradient(ellipse 130% 85% at 25% -12%, rgba(67,180,212,.2), transparent 62%),
+    var(--card);
+  border:1px solid var(--line); border-radius:14px; padding:2.4rem 1.8rem;
+  text-align:center; box-shadow:var(--shadow); position:relative; overflow:hidden; min-width:0;
+}
+.book-mock .publisher{
+  font-family:var(--display); font-size:.7rem; font-weight:600; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--primary); margin-bottom:1.4rem;
+}
+.book-mock h3{font-size:clamp(1.35rem,3vw,1.8rem); line-height:1.14; margin-bottom:.7rem;}
+.book-mock h3 em{font-style:normal; font-weight:500; color:var(--primary);}
+.book-mock .sub{font-size:.92rem; color:var(--fg-muted); max-width:34ch; margin:0 auto 1.3rem;}
+.incluso{
+  display:inline-flex; align-items:center; gap:.45em; font-family:var(--display);
+  font-size:.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--ok); border:1px solid var(--ok); border-radius:100px;
+  padding:.42em 1em; background:var(--ok-bg);
+}
+.book-meta{
+  margin-top:1.7rem; padding-top:1.1rem; border-top:1px solid var(--line);
+  font-family:var(--display); font-size:.74rem; color:var(--fg-faint);
+  display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;
+}
+
+.ebook-copy{min-width:0;}
+.ebook-copy h2{font-size:clamp(1.5rem,3.2vw,2rem); margin-bottom:.9rem;}
+.ebook-copy .lede{color:var(--fg-muted); max-width:54ch;}
+.inside-list{display:flex; flex-direction:column; gap:.5rem; margin:1.5rem 0 2rem;}
+.inside-item{display:flex; gap:.7rem; align-items:flex-start; font-size:.95rem;}
+.inside-item .n{
+  font-family:var(--display); color:var(--primary); font-weight:700; flex:0 0 1.5rem;
+  font-variant-numeric:tabular-nums;
+}
+
+.lead-form{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1.5rem;}
+.form-intent{
+  font-family:var(--display); font-size:.74rem; font-weight:600; letter-spacing:.03em;
+  color:var(--primary); background:var(--card-hi); border-radius:100px;
+  padding:.42rem .9rem; display:inline-block; margin-bottom:1.1rem;
+}
+.field{display:flex; flex-direction:column; gap:.35rem; margin-bottom:.9rem;}
+.field label{font-size:.83rem; font-weight:600; color:var(--fg);}
+.field input, .field select{
+  font-family:var(--body); font-size:.95rem; padding:.68rem .8rem; border-radius:7px;
+  border:1px solid var(--line); background:var(--bg); color:var(--fg); width:100%;
+}
+.field input::placeholder{color:var(--fg-faint);}
+.field input:focus, .field select:focus{outline:2px solid var(--primary); outline-offset:1px; border-color:var(--primary);}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:.85rem;}
+@media (max-width:540px){ .field-row{grid-template-columns:1fr;} }
+.lead-form .btn-primary{width:100%; justify-content:center; margin-top:.4rem; padding:.95em 1.4em;}
+.form-fine{font-size:.78rem; color:var(--fg-faint); margin-top:.9rem; text-align:center;}
+.lead-success{text-align:center; padding:1.6rem .5rem;}
+.lead-success .ok{
+  width:2.7rem; height:2.7rem; border-radius:50%; background:var(--ok-bg); color:var(--ok);
+  display:flex; align-items:center; justify-content:center; margin:0 auto .9rem;
+  font-size:1.35rem; font-weight:700;
+}
+.lead-success h4{font-size:1.15rem; margin-bottom:.5rem;}
+.lead-success p{font-size:.93rem; color:var(--fg-muted);}
+.lead-success a{color:var(--primary);}
+
+/* ---- faixa de diagnóstico ---- */
+.diag-band{
+  display:flex; align-items:center; justify-content:space-between; gap:1.6rem; flex-wrap:wrap;
+  background:var(--card-hi); border:1px solid var(--line); border-radius:14px; padding:1.9rem 2rem;
+}
+.diag-band > div{min-width:0;}
+.diag-band h3{font-size:1.3rem; max-width:24ch;}
+.diag-band p{color:var(--fg-muted); max-width:50ch; font-size:.96rem; margin-top:.5rem;}
+.diag-band strong{color:var(--fg);}
+.diag-band .btn-primary{flex:0 0 auto;}
+
+/* ---- faq ---- */
+.faq-list{display:flex; flex-direction:column; gap:.65rem; max-width:780px;}
+details.faq-item{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.1rem 1.2rem;}
+details.faq-item summary{
+  cursor:pointer; padding:1rem 0; font-weight:600; font-size:.98rem; list-style:none;
+  display:flex; justify-content:space-between; gap:1rem; align-items:center;
+}
+details.faq-item summary::-webkit-details-marker{display:none;}
+details.faq-item summary::after{content:"+"; font-family:var(--display); color:var(--primary); font-size:1.25rem; flex:0 0 auto; line-height:1;}
+details.faq-item[open] summary::after{content:"–";}
+details.faq-item p{padding-bottom:1.1rem; color:var(--fg-muted); font-size:.94rem; margin:0;}
+
+/* ---- rodapé ---- */
+footer.site{padding-block:2.6rem 3rem; background:var(--deep); border-top:1px solid var(--line-soft);}
+.foot-row{display:flex; justify-content:space-between; gap:1.8rem; flex-wrap:wrap; align-items:flex-start;}
+.foot-brand{display:flex; align-items:center; gap:.6rem;}
+.foot-brand img{display:block; width:50px; height:36px;}
+.foot-brand .name{font-family:var(--display); font-size:.82rem; font-weight:700; letter-spacing:.11em; color:var(--fg); text-transform:uppercase; line-height:1;}
+.foot-brand .name em{font-style:normal; font-weight:500; color:var(--fg-muted);}
+.foot-contact{font-size:.85rem; color:var(--fg-muted); display:flex; flex-direction:column; gap:.3rem;}
+.foot-links{display:flex; gap:1.3rem; font-family:var(--display); font-size:.82rem; font-weight:500; color:var(--fg-muted); flex-wrap:wrap;}
+.foot-links a{text-decoration:none;}
+.foot-links a:hover{color:var(--primary);}
+.foot-note{margin-top:1.9rem; padding-top:1.4rem; border-top:1px solid var(--line-soft); font-size:.8rem; color:var(--fg-faint); max-width:86ch;}
+</style>
+</head>
+<body data-audience="sind">
+
+<header class="site">
+  <div class="wrap head-row">
+    <a class="wordmark" href="#topo">
+      <img src="logo-dx-cor.png" alt="Data Experience" width="50" height="36">
+      <span class="name">Data<em>experience</em></span>
+    </a>
+    <nav class="links">
+      <a href="#video">Vídeo</a>
+      <a href="#sinais">Sinais</a>
+      <a href="#metodologia">Metodologia</a>
+      <a href="#cases">Cases</a>
+      <a href="#faq">Perguntas</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn btn-on-light" href="#diagnostico">Falar com a DX</a>
+      <a class="btn btn-primary" href="guia-da-representacao-inteligente.pdf" target="_blank" rel="noopener">Baixar o guia</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="topo">
+  <div class="wrap">
+    <span class="eyebrow">Inteligência para sindicatos, associações e federações</span>
+    <h1>Sua entidade representa com dado confiável — ou com <span class="hl">achismo</span>?</h1>
+    <p class="dek">A DX transforma dados públicos e da sua própria base em rotina de inteligência: para conhecer quem vocês representam, negociar com mais força e provar valor ao associado todos os meses — não só na eleição.</p>
+
+    <div class="aud-toggle" role="group" aria-label="Selecionar tipo de entidade">
+      <span class="aud-label">Fale a língua da sua entidade</span>
+      <button type="button" class="aud-chip" data-target="sind" aria-pressed="true">Sindicato patronal</button>
+      <button type="button" class="aud-chip" data-target="assoc" aria-pressed="false">Associação ou federação</button>
+    </div>
+
+    <div class="hero-pains">
+      <div class="hero-pain aud-sind"><span class="x">✕</span><span>Empresas que deveriam contribuir e nem aparecem no seu radar</span></div>
+      <div class="hero-pain aud-sind"><span class="x">✕</span><span>Convenção coletiva fechada sem dado técnico para sustentar a pauta</span></div>
+      <div class="hero-pain aud-sind"><span class="x">✕</span><span>Ninguém sabe, com exatidão, quem vocês representam hoje</span></div>
+      <div class="hero-pain aud-assoc"><span class="x">✕</span><span>Associado que não sabe dizer o que recebeu pela anuidade este ano</span></div>
+      <div class="hero-pain aud-assoc"><span class="x">✕</span><span>Falta de conteúdo e de números confiáveis do setor</span></div>
+      <div class="hero-pain aud-assoc"><span class="x">✕</span><span>Consultorias e plataformas disputando a relevância que era só sua</span></div>
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="guia-da-representacao-inteligente.pdf" target="_blank" rel="noopener">Baixar o Guia da Representação Inteligente</a>
+      <a class="btn btn-ghost" href="#video">▶ Assistir ao vídeo (2 min)</a>
+      <a class="btn btn-ghost" href="#diagnostico">Quero um diagnóstico gratuito</a>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><span class="num">20+</span><span class="lbl">projetos entregues</span></div>
+      <div class="stat"><span class="num">8</span><span class="lbl">setores da economia</span></div>
+      <div class="stat"><span class="num">3</span><span class="lbl">confederações nacionais atendidas</span></div>
+      <div class="stat"><span class="num">Centenas</span><span class="lbl">de fontes de dados automatizadas</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:1.8rem;">
+      <span class="eyebrow">Assista em 2 minutos</span>
+      <h2>Representação Inteligente</h2>
+      <p>Os seis pilares de uma representação sustentada por dado: Base, Observatório, Relacionamento, Valor, Radar e Advocacy.</p>
+    </div>
+    <a class="video-frame" href="https://youtu.be/qUwjXb-gw3E" target="_blank" rel="noopener">
+      <img src="video-thumb.jpg" alt="Assistir ao vídeo Representação Inteligente no YouTube">
+      <span class="video-play" aria-hidden="true"><span>▶</span></span>
+    </a>
+    <div class="video-caption">
+      <span>DX Entidades · vídeo institucional · youtu.be/qUwjXb-gw3E</span>
+      <span>Roteiro: Base → Observatório → Radar → Advocacy</span>
+    </div>
+  </div>
+</section>
+
+<section id="sinais">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Diagnóstico rápido</span>
+      <h2>Você reconhece sua entidade aqui?</h2>
+      <p>Cinco sinais que aparecem, quase sempre juntos, em entidades que ainda não têm rotina de inteligência — só ação sob demanda.</p>
+    </div>
+    <div class="check-grid">
+      <div class="check-item"><span class="flag">!</span><p>Ninguém sabe, com exatidão, quantas empresas deveriam estar na base hoje.</p></div>
+      <div class="check-item"><span class="flag">!</span><p>Quando a imprensa ou o poder público pede números do setor, consolidar o dado real vira uma corrida.</p></div>
+      <div class="check-item"><span class="flag">!</span><p>A comunicação sai igual para todos — sem segmentação por porte, região ou atividade.</p></div>
+      <div class="check-item"><span class="flag">!</span><p>Empresas recém-abertas não aparecem no radar para ações de relacionamento.</p></div>
+      <div class="check-item"><span class="flag">!</span><p>A entidade não identifica negócios e oportunidades concretas para seus representados.</p></div>
+    </div>
+    <div class="pain-bridge">
+      <p>Se você marcou <strong>três ou mais</strong>, o problema não é falta de esforço da equipe — é a ausência de uma rotina de inteligência. O <strong>Guia da Representação Inteligente</strong> traz um autodiagnóstico completo, com pontuação e classificação da sua entidade.</p>
+      <a class="btn btn-primary" href="#guia">Fazer o autodiagnóstico</a>
+    </div>
+  </div>
+</section>
+
+<section id="metodologia">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Metodologia DX</span>
+      <h2>Seis pilares, numa sequência: mapear, ler, segmentar, reter, gerar, defender</h2>
+      <p>Não vendemos dashboard avulso. Cada pilar resolve uma dor específica da gestão de entidades — e juntos formam uma rotina contínua de inteligência.</p>
+    </div>
+    <div class="pillar-grid">
+      <article class="pillar-card">
+        <div class="pillar-top"><span class="pillar-n">01</span><span class="pillar-verb">Mapear</span></div>
+        <h3>Base Representada</h3>
+        <p>Revelamos quantas empresas deveriam estar na sua base hoje — e onde estão as lacunas de representação e de arrecadação.</p>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-top"><span class="pillar-n">02</span><span class="pillar-verb">Ler</span></div>
+        <h3>Observatório Setorial</h3>
+        <p>Rotina de inteligência sempre pronta — leitura de cenário para diretoria, comunicação e imprensa, sem levantamento de última hora.</p>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-top"><span class="pillar-n">03</span><span class="pillar-verb">Segmentar</span></div>
+        <h3>Relacionamento Inteligente</h3>
+        <p>Comunicação por porte, região e atividade — com medição real de quem abre, responde e participa.</p>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-top"><span class="pillar-n">04</span><span class="pillar-verb">Reter</span></div>
+        <h3>Valor ao Associado</h3>
+        <p>Benchmarks e conteúdos que provam, todo mês, por que vale a pena continuar associado — não só no boleto.</p>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-top"><span class="pillar-n">05</span><span class="pillar-verb">Gerar</span></div>
+        <h3>Radar de Oportunidades</h3>
+        <p>Licitações, projetos e conexões de negócio distribuídos direto para o comercial dos seus associados.</p>
+      </article>
+      <article class="pillar-card">
+        <div class="pillar-top"><span class="pillar-n">06</span><span class="pillar-verb">Defender</span></div>
+        <h3>Advocacy Setorial</h3>
+        <p>Evidência técnica para pleitos, consultas públicas e negociações — muda o tom da conversa com quem está do outro lado da mesa.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band-alt">
+  <div class="wrap">
+    <span class="eyebrow">Da correria ao hábito</span>
+    <p class="pullquote">“Relatório feito na correria mostra o que já passou. Rotina de inteligência mostra o que está vindo.”</p>
+    <p class="sub-copy">Toda entidade já viveu a mesma cena: a diretoria pede, na véspera de uma reunião, um levantamento rápido sobre o setor. A alternativa não é mais trabalho — é trabalho em outro ritmo, com leitura contínua pronta antes de alguém precisar perguntar.</p>
+  </div>
+</section>
+
+<section id="cases">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Quem já decide com a DX</span>
+      <h2>Confederações, federações, sindicatos e associações de setores diferentes</h2>
+      <p>A metodologia se repete, o dado muda: cada entidade recebe um mapeamento de fontes e indicadores exclusivos do próprio setor.</p>
+    </div>
+    <div class="case-grid">
+      <div class="case-card"><span class="case-badge">CNI</span><span class="name">Confederação Nacional da Indústria</span><p>Representatividade e arrecadação de todos os sindicatos industriais do Brasil em base única.</p></div>
+      <div class="case-card"><span class="case-badge">CNF</span><span class="name">Confederação Nacional das Instituições Financeiras</span><p>Balancetes por rubrica, mapa de concentração e ranking de municípios do sistema financeiro.</p></div>
+      <div class="case-card"><span class="case-badge">Fecomércio DF</span><span class="name">Mapa do Comércio · Painel Legislativo</span><p>171.112 proposições legislativas monitoradas por tipo, tramitação, autor, partido e UF.</p></div>
+      <div class="case-card"><span class="case-badge">FIBRA</span><span class="name">Painel da Indústria do DF</span><p>Admissões, demissões e saldo de empregos por ocupação, região, porte e escolaridade.</p></div>
+      <div class="case-card"><span class="case-badge">ACIEG</span><span class="name">Associação Comercial e Industrial de Goiás</span><p>Top 500 contribuintes de ICMS do estado, com variação de posições no ranking ano a ano.</p></div>
+      <div class="case-card"><span class="case-badge">ASSBAN DF</span><span class="name">Associação dos Bancos no DF</span><p>Séries do Banco Central sobre atrasos e inadimplência, com evolução nominal e comparação anual.</p></div>
+      <div class="case-card"><span class="case-badge">Fenapro</span><span class="name">Federação Nacional das Agências de Propaganda</span><p>Índice de força dos Sinapros por UF, com cinco dimensões de gestão e evolução mensal.</p></div>
+      <div class="case-card"><span class="case-badge">SINDHOSPE</span><span class="name">Sindicato dos Hospitais de Pernambuco</span><p>30.843 CNPJs de saúde cruzados com os estabelecimentos do CNES e a base de associados.</p></div>
+      <div class="case-card"><span class="case-badge">ABCS</span><span class="name">Associação Brasileira dos Criadores de Suínos</span><p>R$ 23,1 bilhões em crédito rural e cotações nas bolsas estaduais, para defesa de interesse.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="guia" class="ebook-sec">
+  <div class="wrap ebook-grid">
+    <div class="book-mock">
+      <div class="publisher">Data Experience</div>
+      <h3>Guia da<br><em>Representação Inteligente</em></h3>
+      <p class="sub">Como sindicatos, associações e federações usam dados para fortalecer base, negociação e valor ao associado.</p>
+      <span class="incluso">✓ com autodiagnóstico incluso</span>
+      <div class="book-meta"><span>9 capítulos</span><span>·</span><span>24 páginas</span><span>·</span><span>22 min de leitura</span></div>
+    </div>
+
+    <div class="ebook-copy">
+      <span class="eyebrow">Material gratuito</span>
+      <h2>O material que sensibiliza a diretoria antes da primeira reunião</h2>
+      <p class="lede">Um raciocínio em seis pilares, mais um autodiagnóstico de 12 perguntas para a entidade descobrir, em cinco minutos, se está Reativa, em Transição ou Estratégica.</p>
+
+      <div class="inside-list">
+        <div class="inside-item"><span class="n">01</span><span>Como saber quem vocês realmente representam hoje</span></div>
+        <div class="inside-item"><span class="n">02</span><span>Como sair da rotina de relatório de última hora</span></div>
+        <div class="inside-item"><span class="n">03</span><span>Como segmentar a comunicação sem multiplicar trabalho</span></div>
+        <div class="inside-item"><span class="n">04</span><span>Como provar valor ao associado todo mês, não só no boleto</span></div>
+        <div class="inside-item"><span class="n">05</span><span>Como virar geradora de negócio, não só de representação</span></div>
+        <div class="inside-item"><span class="n">06</span><span>Como sustentar pleitos com dado técnico, não com discurso</span></div>
+      </div>
+
+      <div class="lead-form" id="leadForm">
+        <span class="form-intent" id="formIntentLabel">Você está solicitando: o Guia da Representação Inteligente</span>
+        <form id="leadFormEl" novalidate>
+          <input type="hidden" id="lead-intent" name="intent" value="guia">
+          <div class="field">
+            <label for="lead-nome">Nome</label>
+            <input type="text" id="lead-nome" name="nome" autocomplete="name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="lead-email">E-mail corporativo</label>
+              <input type="email" id="lead-email" name="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="lead-entidade">Entidade</label>
+              <input type="text" id="lead-entidade" name="entidade" required>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="lead-setor">Tipo de entidade</label>
+              <select id="lead-setor" name="setor" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="sindicato">Sindicato patronal</option>
+                <option value="associacao">Associação empresarial</option>
+                <option value="federacao">Federação</option>
+                <option value="confederacao">Confederação</option>
+                <option value="camara">Câmara setorial</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="lead-cargo">Cargo</label>
+              <input type="text" id="lead-cargo" name="cargo" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="leadSubmitBtn">Quero o Guia da Representação Inteligente</button>
+        </form>
+        <div class="lead-success" id="leadSuccess" hidden>
+          <div class="ok">✓</div>
+          <h4 tabindex="-1">Pronto.</h4>
+          <p>O Guia da Representação Inteligente chega no seu e-mail corporativo em instantes. Enquanto isso, já dá para agendar o <a href="#diagnostico">diagnóstico gratuito</a>.</p>
+        </div>
+        <p class="form-fine">Seus dados são usados apenas para o envio do material e para contato comercial da DX.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="wrap">
+    <div class="diag-band">
+      <div>
+        <h3>Prefere conversar antes de baixar?</h3>
+        <p class="aud-sind">Começamos com um <strong>Diagnóstico Express da Base Representada e do potencial de arrecadação</strong> — 30 minutos para revelar lacunas e abrir uma agenda prática de atuação.</p>
+        <p class="aud-assoc">Começamos com um <strong>Mini Observatório Setorial e um mapa de tendências e oportunidades</strong> — para demonstrar valor prático e construir o business case da sua associação.</p>
+      </div>
+      <a class="btn btn-primary" href="#guia" id="diagCta">Agendar diagnóstico gratuito</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2>Antes de você decidir</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Os dados são específicos do meu setor, ou é um dashboard genérico?</summary>
+        <p>Cada entidade recebe um mapeamento próprio das fontes públicas e privadas relevantes ao seu setor. O que muda de cliente para cliente não é a metodologia, é o conjunto de dados por trás dela.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Precisamos de uma equipe técnica interna para operar isso?</summary>
+        <p>Não. A DX entrega inteligência pronta para uso — para diretoria, comunicação e associados — sem que a entidade precise montar estrutura interna.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Como fica a segurança e a LGPD dos dados coletados?</summary>
+        <p>Trabalhamos com fontes públicas e oficiais (portais de transparência, IBGE, CNES, CONAB, Banco Central, entre outras) e com dados da própria base da entidade, sempre com tratamento seguro e sem exposição de dado sensível de terceiros.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quanto custa?</summary>
+        <p>Varia conforme os pilares combinados — trabalhamos com uma configuração Essencial e uma Completa. O valor exato sai do diagnóstico gratuito, depois de entender a realidade da sua base.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-brand">
+        <img src="logo-dx-branca.png" alt="Data Experience" width="50" height="36">
+        <span class="name">Data<em>experience</em></span>
+      </div>
+      <div class="foot-contact">
+        <span>contato@dataexperience.com.br</span>
+        <span>dataexperience.com.br/setorial</span>
+        <span>Brasília, DF</span>
+      </div>
+      <div class="foot-links">
+        <a href="https://www.linkedin.com/company/dxperience">LinkedIn</a>
+        <a href="https://dataexperience.com.br/politica-de-privacidade">Política de Privacidade</a>
+      </div>
+    </div>
+    <p class="foot-note">Página conceito para orientar a implementação da landing page comercial de entidades em dataexperience.com.br, alinhada ao Guia da Representação Inteligente e ao roteiro de vídeo já validados. O vídeo está em 854×480 para navegação leve; na implementação final, hospedar em CDN de vídeo na resolução original. O formulário demonstra o fluxo e não envia dados — conectar ao CRM e revisar com jurídico antes de publicar.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var body = document.body;
+  var chips = document.querySelectorAll(".aud-chip");
+  var setorSelect = document.getElementById("lead-setor");
+
+  chips.forEach(function(chip){
+    chip.addEventListener("click", function(){
+      var target = chip.getAttribute("data-target");
+      body.setAttribute("data-audience", target);
+      chips.forEach(function(c){ c.setAttribute("aria-pressed", c === chip ? "true" : "false"); });
+      if(setorSelect && !setorSelect.dataset.touched){
+        setorSelect.value = target === "sind" ? "sindicato" : "associacao";
+      }
+    });
+  });
+  if(setorSelect){
+    setorSelect.addEventListener("change", function(){ setorSelect.dataset.touched = "1"; });
+  }
+
+  var intentInput  = document.getElementById("lead-intent");
+  var intentLabel  = document.getElementById("formIntentLabel");
+  var submitBtn    = document.getElementById("leadSubmitBtn");
+  var diagCta      = document.getElementById("diagCta");
+
+  function setIntent(intent){
+    intentInput.value = intent;
+    if(intent === "diagnostico"){
+      intentLabel.textContent = "Você está solicitando: um diagnóstico gratuito com a DX";
+      submitBtn.textContent   = "Quero meu diagnóstico gratuito";
+    } else {
+      intentLabel.textContent = "Você está solicitando: o Guia da Representação Inteligente";
+      submitBtn.textContent   = "Quero o Guia da Representação Inteligente";
+    }
+  }
+  if(diagCta){
+    diagCta.addEventListener("click", function(){ setIntent("diagnostico"); });
+  }
+
+  var form     = document.getElementById("leadFormEl");
+  var sucesso  = document.getElementById("leadSuccess");
+  if(form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){ form.reportValidity(); return; }
+      form.hidden = true;
+      sucesso.hidden = false;
+      var titulo = sucesso.querySelector("h4");
+      if(titulo){ titulo.focus(); }
+    });
+  }
+})();
+</script>
+</body>
+</html>
